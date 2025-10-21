@@ -53,3 +53,28 @@ View(bill_length_summary)
 # Save results to CSV
 write_csv(bill_length_summary, "~/Desktop/QAC380/body_mass_summary_by_species.csv")
 
+
+###################Descriptive Statistic 3###################
+# Load dplyr for data manipulation
+library(dplyr)
+
+# Define a function to calculate mode (most frequent value)
+get_mode <- function(x) {
+  ux <- na.omit(unique(x))
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+# Group by species and calculate mean, median, and mode of bill_length_mm
+bill_depth_summary <- penguins %>%
+  group_by(species) %>%
+  summarise(
+    mean_bill_depth_mm = mean(bill_depth_mm, na.rm = TRUE),
+    median_bill_depth_mm = median(bill_depth_mm, na.rm = TRUE),
+    mode_bill_depth_mm = get_mode(bill_depth_mm)
+  )
+
+# View the summary table in RStudio
+View(bill_depth_summary)
+
+# Save results to CSV
+write_csv(bill_depth_summary, "~/Desktop/QAC380/body_mass_summary_by_species.csv")
